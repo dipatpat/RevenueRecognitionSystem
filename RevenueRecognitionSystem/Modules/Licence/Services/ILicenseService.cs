@@ -1,6 +1,6 @@
 namespace RevenueRecognitionSystem.Features.Contracts.Services;
 
-public interface IContractService
+public interface ILicenseService
 {
     
 }

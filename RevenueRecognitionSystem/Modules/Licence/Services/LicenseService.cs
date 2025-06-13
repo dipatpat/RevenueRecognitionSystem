@@ -1,6 +1,6 @@
 namespace RevenueRecognitionSystem.Features.Contracts.Services;
 
-public class ContractService
+public class LicenseService
 {
     
 }

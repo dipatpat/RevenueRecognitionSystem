@@ -1,6 +1,6 @@
 namespace RevenueRecognitionSystem.Features.Contracts.Repositories;
 
-public interface IContractRepository
+public interface ILicenseRepository
 {
     
 }

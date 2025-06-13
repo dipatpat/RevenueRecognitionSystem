@@ -24,4 +24,10 @@
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Shared\Auth\AuthService\" />
+      <Folder Include="Shared\Auth\Employee\" />
+      <Folder Include="Shared\Enums\" />
+    </ItemGroup>
+
 </Project>

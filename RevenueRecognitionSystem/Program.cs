@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using RevenueRecognitionSystem.Infrastructure.DAL;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace RevenueRecognitionSystem;
@@ -8,7 +10,12 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        builder.Services.AddDbContext<RevenueRecognitionDbContext>(opt =>
+        {
+            opt.UseSqlServer(connectionString);
+        });
+        
         // Add services to the container.
         builder.Services.AddAuthorization();
 

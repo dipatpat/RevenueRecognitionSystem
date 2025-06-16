@@ -3,6 +3,7 @@ using Microsoft.OpenApi.Models;
 using RevenueRecognitionSystem.Features.Clients.Repositories;
 using RevenueRecognitionSystem.Features.Clients.Services;
 using RevenueRecognitionSystem.Infrastructure.DAL;
+using RevenueRecognitionSystem.Middlewares;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace RevenueRecognitionSystem;
@@ -54,6 +55,8 @@ public class Program
         
         if (app.Environment.IsDevelopment())
         {
+            app.UseGlobalExceptionHandling(); 
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -18,9 +18,10 @@ public class ClientService : IClientService
         return await _clientRepository.GetAllAsync(cancellationToken);
     }
 
-    public async Task<Client?> GetClientByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Client> GetClientByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await _clientRepository.GetByIdAsync(id, cancellationToken);
+        var client = await _clientRepository.GetByIdAsync(id, cancellationToken);
+        return client ?? throw new NotFoundException($"Client with ID {id} not found.");
     }
 
     public async Task AddClientAsync(Client client, CancellationToken cancellationToken = default)
@@ -32,12 +33,12 @@ public class ClientService : IClientService
     {
         var existing = await _clientRepository.GetByIdAsync(client.Id, cancellationToken);
         if (existing == null)
-            throw new NotFoundException("Client not found");
+            throw new NotFoundException($"Client with ID {client.Id} not found.");
 
         if (existing is IndividualClient existingIndividual && client is IndividualClient updated)
         {
             if (!string.IsNullOrEmpty(updated.Pesel) && updated.Pesel != existingIndividual.Pesel)
-                throw new ConflictException("PESEL cannot be changed");
+                throw new ConflictException("PESEL cannot be changed.");
 
             if (updated.FirstName != null)
                 existingIndividual.FirstName = updated.FirstName;
@@ -57,7 +58,7 @@ public class ClientService : IClientService
         else if (existing is CompanyClient existingCompany && client is CompanyClient updatedCompany)
         {
             if (!string.IsNullOrEmpty(updatedCompany.KRS) && updatedCompany.KRS != existingCompany.KRS)
-                throw new ConflictException("KRS cannot be changed");
+                throw new ConflictException("KRS cannot be changed.");
 
             if (updatedCompany.Name != null)
                 existingCompany.Name = updatedCompany.Name;
@@ -75,13 +76,12 @@ public class ClientService : IClientService
         await _clientRepository.UpdateAsync(existing, cancellationToken);
     }
 
-
     public async Task SoftDeleteClientAsync(int id, CancellationToken cancellationToken = default)
     {
         var client = await _clientRepository.GetByIdAsync(id, cancellationToken);
 
-        if (client is null)
-            throw new NotFoundException("Client not found");
+        if (client == null)
+            throw new NotFoundException($"Client with ID {id} not found.");
 
         if (client is CompanyClient)
             throw new ConflictException("Company clients cannot be deleted.");

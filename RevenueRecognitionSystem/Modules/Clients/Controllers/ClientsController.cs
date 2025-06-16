@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using RevenueRecognitionSystem.Exceptions;
 using RevenueRecognitionSystem.Features.Clients.Models;
 using RevenueRecognitionSystem.Features.Clients.Services;
 using RevenueRecognitionSystem.Modules.Clients.DTOs.Requests;
@@ -16,20 +17,21 @@ public class ClientsController : ControllerBase
     {
         _clientService = clientService;
     }
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        return Ok(await _clientService.GetAllClientsAsync());
+        var clients = await _clientService.GetAllClientsAsync();
+        return Ok(clients);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var client = await _clientService.GetClientByIdAsync(id);
-        if (client == null) return NotFound();
+        var client = await _clientService.GetClientByIdAsync(id); // throws if not found
         return Ok(client);
     }
-    
+
     [HttpPost("individual")]
     public async Task<IActionResult> CreateIndividual(CreateIndividualClientDto dto)
     {
@@ -41,10 +43,11 @@ public class ClientsController : ControllerBase
             Email = dto.Email,
             PhoneNumber = dto.PhoneNumber
         };
+
         await _clientService.AddClientAsync(client);
         return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
     }
-    
+
     [HttpPost("company")]
     public async Task<IActionResult> CreateCompany(CreateCompanyClientDto dto)
     {
@@ -56,6 +59,7 @@ public class ClientsController : ControllerBase
             Email = dto.Email,
             PhoneNumber = dto.PhoneNumber
         };
+
         await _clientService.AddClientAsync(client);
         return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
     }
@@ -98,7 +102,7 @@ public class ClientsController : ControllerBase
         }
 
         if (updatedFields.Count == 0)
-            return BadRequest(new { message = "No fields provided to update." });
+            throw new BadRequestException("No fields provided to update."); // now handled by middleware
 
         await _clientService.UpdateClientAsync(client);
 
@@ -108,7 +112,7 @@ public class ClientsController : ControllerBase
             Updated = updatedFields
         });
     }
-    
+
     [HttpPatch("company/{id}")]
     public async Task<IActionResult> UpdateCompany(int id, UpdateCompanyClientDto dto)
     {
@@ -141,7 +145,7 @@ public class ClientsController : ControllerBase
         }
 
         if (updatedFields.Count == 0)
-            return BadRequest(new { message = "No fields provided to update." });
+            throw new BadRequestException("No fields provided to update."); // now handled by middleware
 
         await _clientService.UpdateClientAsync(client);
 
@@ -151,5 +155,4 @@ public class ClientsController : ControllerBase
             Updated = updatedFields
         });
     }
-
 }

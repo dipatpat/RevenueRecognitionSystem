@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using RevenueRecognitionSystem.Features.Clients.Models;
 using RevenueRecognitionSystem.Features.Discounts.Models;
 using RevenueRecognitionSystem.Features.Payments.Models;
@@ -41,6 +42,16 @@ public class RevenueRecognitionDbContext : DbContext
     modelBuilder.Entity<Discount>()
         .Property(d => d.Type)
         .HasConversion<string>();
+    
+    modelBuilder.Entity<IndividualClient>()
+        .Property(i => i.Pesel)
+        .IsRequired()
+        .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore); 
+
+    modelBuilder.Entity<CompanyClient>()
+        .Property(c => c.KRS)
+        .IsRequired()
+        .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
     modelBuilder.Entity<Software>().HasData(
         new Software

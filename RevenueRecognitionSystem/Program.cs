@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using RevenueRecognitionSystem.Features.Clients.Repositories;
+using RevenueRecognitionSystem.Features.Clients.Services;
 using RevenueRecognitionSystem.Infrastructure.DAL;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -16,8 +18,13 @@ public class Program
             opt.UseSqlServer(connectionString);
         });
         
+        builder.Services.AddScoped<IClientRepository, ClientRepository>();
+        builder.Services.AddScoped<IClientService, ClientService>();
+
         // Add services to the container.
         builder.Services.AddAuthorization();
+        builder.Services.AddControllers();
+        
 
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
@@ -64,6 +71,7 @@ public class Program
             app.MapOpenApi();
         }
 
+        app.MapControllers();
         app.UseHttpsRedirection();
 
         app.UseAuthorization();

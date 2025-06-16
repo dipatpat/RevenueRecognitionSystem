@@ -1,4 +1,4 @@
-namespace MovieRentalApp.Exceptions;
+namespace RevenueRecognitionSystem.Exceptions;
 
 public class ConflictException : Exception
 {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RevenueRecognitionSystem.Infrastructure.DAL;
 
@@ -11,9 +12,11 @@ using RevenueRecognitionSystem.Infrastructure.DAL;
 namespace RevenueRecognitionSystem.Migrations
 {
     [DbContext(typeof(RevenueRecognitionDbContext))]
-    partial class RevenueRecognitionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250617111119_SoftwareSeedData")]
+    partial class SoftwareSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

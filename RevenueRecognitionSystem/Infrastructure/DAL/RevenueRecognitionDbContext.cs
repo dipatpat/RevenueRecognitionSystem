@@ -38,10 +38,26 @@ public class RevenueRecognitionDbContext : DbContext
     modelBuilder.Entity<Software>()
         .Property(s => s.Category)
         .HasConversion<string>();
+    
+    modelBuilder.Entity<Software>()
+        .Property(s => s.BaseUpfrontPrice)
+        .HasPrecision(18, 2);
 
     modelBuilder.Entity<Discount>()
         .Property(d => d.Type)
         .HasConversion<string>();
+    
+    modelBuilder.Entity<Discount>()
+        .Property(d => d.Percentage)
+        .HasPrecision(5, 2);
+    
+    modelBuilder.Entity<Payment>()
+        .Property(p => p.Amount)
+        .HasPrecision(18, 2);
+    
+    modelBuilder.Entity<Licence>()
+        .Property(l => l.FinalPrice)
+        .HasPrecision(18, 2);
     
     modelBuilder.Entity<IndividualClient>()
         .Property(i => i.Pesel)
@@ -73,6 +89,46 @@ public class RevenueRecognitionDbContext : DbContext
             Category = SoftwareCategory.Finance,
             IsAvailableAsSubscription = true,
             IsAvailableAsUpfront = false
+        },
+        new Software
+        {
+            Id = 3,
+            Name = "SalesBooster",
+            Description = "CRM tool for growing health businesses",
+            Version = "2.0.0",
+            Category = SoftwareCategory.Health,
+            IsAvailableAsSubscription = true,
+            IsAvailableAsUpfront = true
+        },
+        new Software
+        {
+            Id = 4,
+            Name = "MediSys",
+            Description = "Medical records and appointment management",
+            Version = "1.3.0",
+            Category = SoftwareCategory.Health,
+            IsAvailableAsSubscription = false,
+            IsAvailableAsUpfront = true
+        },
+        new Software
+        {
+            Id = 5,
+            Name = "CodeFlow",
+            Description = "DevOps and continuous delivery toolkit",
+            Version = "4.5.2",
+            Category = SoftwareCategory.Technology,
+            IsAvailableAsSubscription = true,
+            IsAvailableAsUpfront = true
+        },
+        new Software
+        {
+            Id = 6,
+            Name = "TravelPro",
+            Description = "Travel booking and itinerary management system",
+            Version = "3.0.1",
+            Category = SoftwareCategory.Utilities,
+            IsAvailableAsSubscription = false,
+            IsAvailableAsUpfront = true
         }
     );
 
@@ -118,6 +174,15 @@ public class RevenueRecognitionDbContext : DbContext
             Percentage = 0.10m,
             StartDate = new DateTime(2025, 8, 15),
             EndDate = new DateTime(2025, 10, 15)
+        },
+        new Discount
+        {
+            Id = 3,
+            Name = "Black Friday Upfront",
+            Type = DiscountType.Upfront,
+            Percentage = 0.20m,
+            StartDate = new DateTime(2025, 11, 24),
+            EndDate = new DateTime(2025, 11, 30)
         }
     );
 

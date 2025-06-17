@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RevenueRecognitionSystem.Infrastructure.DAL;
 
@@ -11,9 +12,11 @@ using RevenueRecognitionSystem.Infrastructure.DAL;
 namespace RevenueRecognitionSystem.Migrations
 {
     [DbContext(typeof(RevenueRecognitionDbContext))]
-    partial class RevenueRecognitionDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250617091856_UpdateLicenceWithIsCancelled")]
+    partial class UpdateLicenceWithIsCancelled
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,15 +107,6 @@ namespace RevenueRecognitionSystem.Migrations
                             Percentage = 0.10m,
                             StartDate = new DateTime(2025, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Type = "Subscription"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            EndDate = new DateTime(2025, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Black Friday Upfront",
-                            Percentage = 0.20m,
-                            StartDate = new DateTime(2025, 11, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Type = "Upfront"
                         });
                 });
 
@@ -283,50 +277,6 @@ namespace RevenueRecognitionSystem.Migrations
                             IsAvailableAsUpfront = false,
                             Name = "FinTracker",
                             Version = "3.2.1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BaseUpfrontPrice = 0m,
-                            Category = "Health",
-                            Description = "CRM tool for growing health businesses",
-                            IsAvailableAsSubscription = true,
-                            IsAvailableAsUpfront = true,
-                            Name = "SalesBooster",
-                            Version = "2.0.0"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            BaseUpfrontPrice = 0m,
-                            Category = "Health",
-                            Description = "Medical records and appointment management",
-                            IsAvailableAsSubscription = false,
-                            IsAvailableAsUpfront = true,
-                            Name = "MediSys",
-                            Version = "1.3.0"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            BaseUpfrontPrice = 0m,
-                            Category = "Technology",
-                            Description = "DevOps and continuous delivery toolkit",
-                            IsAvailableAsSubscription = true,
-                            IsAvailableAsUpfront = true,
-                            Name = "CodeFlow",
-                            Version = "4.5.2"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            BaseUpfrontPrice = 0m,
-                            Category = "Utilities",
-                            Description = "Travel booking and itinerary management system",
-                            IsAvailableAsSubscription = false,
-                            IsAvailableAsUpfront = true,
-                            Name = "TravelPro",
-                            Version = "3.0.1"
                         });
                 });
 

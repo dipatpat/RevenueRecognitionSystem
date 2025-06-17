@@ -2,8 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using RevenueRecognitionSystem.Features.Clients.Repositories;
 using RevenueRecognitionSystem.Features.Clients.Services;
+using RevenueRecognitionSystem.Features.Contracts.Repositories;
+using RevenueRecognitionSystem.Features.Contracts.Services;
+using RevenueRecognitionSystem.Features.Discounts.Repositories;
+using RevenueRecognitionSystem.Features.Payments.Repositories;
+using RevenueRecognitionSystem.Features.Payments.Services;
+using RevenueRecognitionSystem.Features.Revenue.Services;
 using RevenueRecognitionSystem.Infrastructure.DAL;
 using RevenueRecognitionSystem.Middlewares;
+using RevenueRecognitionSystem.Modules.Software.Repositories;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace RevenueRecognitionSystem;
@@ -21,6 +28,16 @@ public class Program
         
         builder.Services.AddScoped<IClientRepository, ClientRepository>();
         builder.Services.AddScoped<IClientService, ClientService>();
+        builder.Services.AddScoped<IClientRepository, ClientRepository>();
+        builder.Services.AddScoped<IClientService, ClientService>();
+
+        builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
+        builder.Services.AddScoped<ILicenseService, LicenseService>();
+        
+        builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+
+        builder.Services.AddScoped<ISoftwareRepository, SoftwareRepository>();
+
 
         // Add services to the container.
         builder.Services.AddAuthorization();

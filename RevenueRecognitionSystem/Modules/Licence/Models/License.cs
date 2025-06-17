@@ -22,8 +22,10 @@ public class Licence
     public decimal FinalPrice { get; set; }
 
     public bool IsSigned { get; set; }
+    public bool IsCancelled { get; set; } = false;
 
     public int SupportYears { get; set; } 
+    
 
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

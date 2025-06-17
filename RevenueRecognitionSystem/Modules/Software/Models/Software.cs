@@ -14,6 +14,7 @@ public class Software
 
     public bool IsAvailableAsSubscription { get; set; }
     public bool IsAvailableAsUpfront { get; set; }
+    public decimal BaseUpfrontPrice { get; set; } 
 
     public ICollection<Licence.Models.Licence> Licences { get; set; } = new List<Licence.Models.Licence>();
 }

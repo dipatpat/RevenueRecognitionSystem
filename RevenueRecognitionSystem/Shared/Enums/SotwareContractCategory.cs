@@ -5,7 +5,7 @@ public enum SoftwareCategory
     Finance,
     Education,
     Health,
-    Entertainment,
+    Technology,    
     Utilities,
     Other
 }

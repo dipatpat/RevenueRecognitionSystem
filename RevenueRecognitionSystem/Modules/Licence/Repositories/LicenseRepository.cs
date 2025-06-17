@@ -42,5 +42,11 @@ public class LicenseRepository : ILicenseRepository
         await _context.SaveChangesAsync();
         return licence.Id;
     }
+    
+    public async Task UpdateAsync(Licence licence)
+    {
+        _context.Licences.Update(licence);
+        await _context.SaveChangesAsync();
+    }
 
 }

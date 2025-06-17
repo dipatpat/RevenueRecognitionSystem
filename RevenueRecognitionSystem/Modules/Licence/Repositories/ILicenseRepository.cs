@@ -8,7 +8,9 @@ public interface ILicenseRepository
     Task<bool> HasAnyPastContractAsync(int clientId);
     
     Task<int> AddAsync(Licence licence);
-    Task<Licence?> GetByIdWithClientAndSoftwareAsync(int id);  
+    Task<Licence?> GetByIdWithClientAndSoftwareAsync(int id); 
+    
+    Task UpdateAsync(Licence licence);
     
     
 

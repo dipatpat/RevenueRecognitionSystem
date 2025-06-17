@@ -28,8 +28,8 @@ public class Program
         
         builder.Services.AddScoped<IClientRepository, ClientRepository>();
         builder.Services.AddScoped<IClientService, ClientService>();
-        builder.Services.AddScoped<IClientRepository, ClientRepository>();
-        builder.Services.AddScoped<IClientService, ClientService>();
+        builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+        builder.Services.AddScoped<IPaymentService, PaymentService>();
 
         builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
         builder.Services.AddScoped<ILicenseService, LicenseService>();

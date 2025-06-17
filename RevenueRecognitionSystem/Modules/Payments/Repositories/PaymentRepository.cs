@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RevenueRecognitionSystem.Features.Payments.Models;
 using RevenueRecognitionSystem.Infrastructure.DAL;
 
@@ -16,5 +17,19 @@ public class PaymentRepository : IPaymentRepository
     {
         await _context.Payments.AddAsync(payment);
         await _context.SaveChangesAsync();
+    }
+    
+    public async Task<Payment?> GetLatestPaymentByLicenceIdAsync(int licenceId)
+    {
+        return await _context.Payments
+            .Where(p => p.LicenceId == licenceId)
+            .OrderByDescending(p => p.PaymentDate)
+            .FirstOrDefaultAsync();
+    }
+    public async Task<List<Payment>> GetPaymentByLicenceIdAsync(int licenceId)
+    {
+        return await _context.Payments
+            .Where(p => p.LicenceId == licenceId)
+            .ToListAsync();
     }
 }

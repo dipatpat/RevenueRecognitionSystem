@@ -20,19 +20,27 @@ public class PaymentService : IPaymentService
     {
         var licence = await _licenceRepository.GetByIdWithClientAndSoftwareAsync(dto.LicenceId);
         if (licence == null)
-            throw new NotFoundException("Licence not found");
+            throw new NotFoundException("Licence not found.");
+
+        if (licence.IsSigned)
+        {
+            var lastPayment = await _paymentRepository.GetLatestPaymentByLicenceIdAsync(dto.LicenceId);
+            var paidDate = lastPayment?.PaymentDate.ToString("yyyy-MM-dd") ?? "unknown date";
+            throw new ConflictException($"This licence has already been paid and signed on {paidDate}.");
+        }
 
         if (licence.IsCancelled)
-            throw new ConflictException("Cannot pay for a cancelled licence");
+            throw new ConflictException("Cannot pay for a cancelled licence.");
 
         if (licence.PaymentDeadline < DateTime.UtcNow)
         {
             licence.IsCancelled = true;
-            await _licenceRepository.UpdateAsync(licence); // Optional: persist cancellation
-            throw new ConflictException("Payment deadline passed. Licence cancelled.");
+            await _licenceRepository.UpdateAsync(licence); // Persist cancellation
+            throw new ConflictException("Payment deadline passed. Licence has been cancelled.");
         }
 
-        var totalPaid = licence.Payments.Sum(p => p.Amount);
+        var payments = await _paymentRepository.GetPaymentByLicenceIdAsync(dto.LicenceId);
+        var totalPaid = payments.Sum(p => p.Amount);
         var newTotal = totalPaid + dto.Amount;
 
         if (newTotal > licence.FinalPrice)
@@ -43,7 +51,8 @@ public class PaymentService : IPaymentService
             LicenceId = dto.LicenceId,
             Amount = dto.Amount,
             PaymentMethod = dto.PaymentMethod,
-            PaymentDate = DateTime.UtcNow
+            PaymentDate = DateTime.UtcNow,
+            Confirmed = true
         };
 
         await _paymentRepository.AddAsync(payment);

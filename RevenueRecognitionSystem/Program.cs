@@ -37,11 +37,13 @@ public class Program
         builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 
         builder.Services.AddScoped<ISoftwareRepository, SoftwareRepository>();
+        builder.Services.AddScoped<IRevenueService, RevenueService>();
 
 
         // Add services to the container.
         builder.Services.AddAuthorization();
         builder.Services.AddControllers();
+        builder.Services.AddHttpClient<ICurrencyService, CurrencyService>();
         
 
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

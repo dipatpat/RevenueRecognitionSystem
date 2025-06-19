@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using RevenueRecognitionSystem.Auth;
 using RevenueRecognitionSystem.Features.Clients.Models;
 using RevenueRecognitionSystem.Features.Discounts.Models;
 using RevenueRecognitionSystem.Features.Payments.Models;
@@ -19,6 +20,7 @@ public class RevenueRecognitionDbContext : DbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<IndividualClient> IndividualClients { get; set; }
     public DbSet<CompanyClient> CompanyClients { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 
     public DbSet<Licence> Licences { get; set; }
 
@@ -30,6 +32,10 @@ public class RevenueRecognitionDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
+    modelBuilder.Entity<Employee>()
+        .Property(e => e.Role)
+        .HasConversion<string>();
+    
     modelBuilder.Entity<Client>()
         .HasDiscriminator<string>("ClientType")
         .HasValue<IndividualClient>("Individual")

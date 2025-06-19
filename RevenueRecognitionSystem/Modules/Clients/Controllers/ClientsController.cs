@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RevenueRecognitionSystem.Exceptions;
@@ -47,7 +48,7 @@ public class ClientsController : ControllerBase
         await _clientService.AddClientAsync(client);
         return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
     }
-
+    
     [HttpPost("company")]
     public async Task<IActionResult> CreateCompany(CreateCompanyClientDto dto)
     {
@@ -64,6 +65,7 @@ public class ClientsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPatch("individual/{id}")]
     public async Task<IActionResult> UpdateIndividual(int id, [FromBody] UpdateIndividualClientDto dto)
     {
@@ -113,6 +115,7 @@ public class ClientsController : ControllerBase
         });
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPatch("company/{id}")]
     public async Task<IActionResult> UpdateCompany(int id, UpdateCompanyClientDto dto)
     {
@@ -145,7 +148,7 @@ public class ClientsController : ControllerBase
         }
 
         if (updatedFields.Count == 0)
-            throw new BadRequestException("No fields provided to update."); // now handled by middleware
+            throw new BadRequestException("No fields provided to update."); 
 
         await _clientService.UpdateClientAsync(client);
 
@@ -154,5 +157,13 @@ public class ClientsController : ControllerBase
             Id = id,
             Updated = updatedFields
         });
+    }
+    
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _clientService.SoftDeleteClientAsync(id); 
+        return NoContent();
     }
 }

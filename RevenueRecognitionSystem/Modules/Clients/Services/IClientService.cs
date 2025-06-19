@@ -9,4 +9,6 @@ public interface IClientService
     Task AddClientAsync(Client client, CancellationToken cancellationToken = default);
     Task UpdateClientAsync(Client client, CancellationToken cancellationToken = default);
     Task SoftDeleteClientAsync(int id, CancellationToken cancellationToken = default);
+    
+    
 }

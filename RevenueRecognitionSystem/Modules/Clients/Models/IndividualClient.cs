@@ -8,6 +8,9 @@ public class IndividualClient : Client
     
     public bool IsDeleted { get; set; } = false;
     
+    public IndividualClient() : base()
+    {
+    }
     public IndividualClient(string pesel)
     {
         Pesel = pesel;

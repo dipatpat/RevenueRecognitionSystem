@@ -29,7 +29,7 @@ public class ClientsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var client = await _clientService.GetClientByIdAsync(id); // throws if not found
+        var client = await _clientService.GetClientByIdAsync(id); 
         return Ok(client);
     }
 
@@ -104,7 +104,7 @@ public class ClientsController : ControllerBase
         }
 
         if (updatedFields.Count == 0)
-            throw new BadRequestException("No fields provided to update."); // now handled by middleware
+            throw new BadRequestException("No fields provided to update."); 
 
         await _clientService.UpdateClientAsync(client);
 
